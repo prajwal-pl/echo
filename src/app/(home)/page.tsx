@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { auth, signIn } from "../../auth";
+import { auth } from "../../../auth";
 import Link from "next/link";
 
 export default async function Home() {
@@ -10,12 +8,13 @@ export default async function Home() {
       {/* Radial gradient for the container to give a faded look */}
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <p className="text-4xl text-center sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8">
-        <span className="text-zinc-950 dark:text-white">Stream</span>{" "}
-        <span className="bg-gradient-to-r from-purple-400 to-violet-800 animate-pulse text-white dark:text-black">
+        {/* <span className="text-zinc-950 dark:text-white">Stream</span>{" "} */}
+        Stream{" "}
+        <span className="bg-clip-text animate-pulse text-transparent bg-gradient-to-r from-purple-400 to-violet-800 dark:from-amber-200 dark:to-amber-800">
           code
         </span>{" "}
         on the{" "}
-        <span className="bg-gradient-to-r from-yellow-300 to-amber-600 animate-pulse text-white dark:text-black">
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-600 animate-pulse dark:from-violet-200 dark:to-violet-800">
           best
         </span>{" "}
         <br />
@@ -26,7 +25,10 @@ export default async function Home() {
         <span className="text-black dark:text-neutral-50">
           skilled developers
         </span>{" "}
-        to help you build your project
+        to help you build your{" "}
+        <span className="bg-clip-text bg-gradient-to-r text-transparent dark:from-blue-200 dark:to-blue-800 from-blue-400 to-blue-900">
+          project
+        </span>
       </p>
       <Link href={"/create-room"}>
         <button className="bg-slate-800 no-underline my-3 group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
