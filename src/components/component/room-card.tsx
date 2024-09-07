@@ -24,12 +24,14 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Room } from "@prisma/client";
+import Link from "next/link";
 
-export function RoomCard() {
+export function RoomCard({ room }: { room: Room }) {
   return (
     <Card className="w-full max-w-sm">
       <img
-        src="/placeholder.svg"
+        src={room.Thumbnail ?? "/404.jpg"}
         alt="Thumbnail"
         width="600"
         height="300"
@@ -37,14 +39,14 @@ export function RoomCard() {
       />
       <CardContent className="p-4 flex flex-col justify-between">
         <div>
-          <CardTitle className="text-xl font-semibold">
-            Acme Productivity App
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Boost your productivity with our all-in-one app.
+          <CardTitle className="text-xl font-semibold">{room.name}</CardTitle>
+          <CardDescription className="text-muted-foreground line-clamp-1">
+            {room.description}
           </CardDescription>
         </div>
-        <Button className="mt-4">Join Room</Button>
+        <Link href={`/browse-rooms/${room.id}`}>
+          <Button className="mt-4">Join Room</Button>
+        </Link>
       </CardContent>
     </Card>
   );

@@ -1,5 +1,6 @@
 import { SearchIcon } from "lucide-react";
 import { RoomCard } from "@/components/component/room-card";
+import { prisma } from "@/lib/prisma";
 
 type Props = {};
 
@@ -8,7 +9,7 @@ const BrowsePage: React.FC<Props> = () => {
     <div className="max-w-screen w-full h-screen">
       <div className="border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-black w-full h-full overflow-y-auto">
         <Header />
-        <div className="container mx-auto flex flex-col">
+        <div className="container mx-auto flex flex-col mb-4">
           <div className="flex flex-col gap-2 px-2 mt-4 md:px-0 mb-8">
             <h1 className="text-3xl md:text-4xl font-bold">Explore Rooms</h1>
             <p className="text-muted-foreground">
@@ -41,12 +42,12 @@ const Header: React.FC = () => {
   );
 };
 
-const RoomCards: React.FC = () => {
-  const roomCount = 26; // Number of rooms to display
+const RoomCards: React.FC = async () => {
+  const rooms = await prisma.room.findMany();
   return (
     <div className="flex flex-wrap md:flex-row items-center gap-3 px-2 md:px-0">
-      {Array.from({ length: roomCount }, (_, index) => (
-        <RoomCard key={index} />
+      {rooms.map((room) => (
+        <RoomCard key={room.id} room={room} />
       ))}
     </div>
   );
