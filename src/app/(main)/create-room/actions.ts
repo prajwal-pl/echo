@@ -3,25 +3,27 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "../../../../auth";
 
-export async function createRoom(Room: {
-  name: any;
-  description: any;
-  tags: any;
-  githubRepo: any;
+export async function createRoom(formData: {
+  name: string;
+  description: string;
+  tags: string;
+  githubRepo: string;
+  thumbnail: string;
 }) {
   const session = await auth();
   try {
     await prisma.room.create({
       data: {
-        name: Room.name,
-        description: Room.description,
-        tags: Room.tags,
-        githubRepo: Room.githubRepo,
+        name: formData.name,
+        description: formData.description,
+        tags: formData.tags,
+        githubRepo: formData.githubRepo,
         user: {
           connect: {
             id: session?.user?.id,
           },
         },
+        Thumbnail: formData.thumbnail,
       },
     });
   } catch (error) {

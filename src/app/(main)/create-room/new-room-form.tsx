@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createRoom } from "./actions";
+import { UploadButton } from "@/lib/uploadthing";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -41,11 +42,20 @@ const formSchema = z.object({
     .startsWith("https://github.com", {
       message: "This is not a valid Github Repo",
     }),
+  thumbnail: z
+    .string()
+    .url({
+      message: "Enter a valid URL",
+    })
+    .startsWith("https://", {
+      message: "This is not a valid URL",
+    }),
 });
 
 type Props = {};
 
 const NewRoomForm = (props: Props) => {
+  const [thumbnail, setThumbnail] = useState<string | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,13 +63,23 @@ const NewRoomForm = (props: Props) => {
       description: "",
       tags: "",
       githubRepo: "",
+      thumbnail: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    //remove all input fields after submit
-    form.reset();
-    createRoom(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      if (thumbnail) {
+        await createRoom({ ...values, thumbnail });
+        form.reset();
+        setThumbnail(null);
+        console.log("Room created successfully");
+      } else {
+        console.error("Thumbnail is required");
+      }
+    } catch (error) {
+      console.error("Error creating room:", error);
+    }
   }
 
   return (
@@ -130,6 +150,25 @@ const NewRoomForm = (props: Props) => {
             </FormItem>
           )}
         />
+        <FormLabel>Thumbnail</FormLabel>
+        <UploadButton
+          endpoint="imageUploader"
+          onClientUploadComplete={(res: any) => {
+            if (res && res.length > 0) {
+              setThumbnail(res[0].url);
+              form.setValue("thumbnail", res[0].url);
+              console.log("Files: ", res);
+            }
+          }}
+          onUploadError={(error: Error) => {
+            console.error(`Upload error: ${error.message}`);
+            alert(`ERROR! ${error.message}`);
+          }}
+          className="ut-button:dark:bg-white ut-button:dark:text-black ut-button:bg-black ut-button:text-white ut-button:w-full ut-allowed-content:sr-only"
+        />
+        <FormDescription>
+          This is the image that will be displayed in the room.
+        </FormDescription>
         <Button className="w-full" type="submit">
           Submit
         </Button>
