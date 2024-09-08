@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { HomeIcon, SearchIcon, PlusCircleIcon } from "lucide-react";
+import { BriefcaseBusiness, CompassIcon, PlusSquareIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
@@ -13,21 +13,27 @@ const Sidebar = (props: Props) => {
       <div className="flex flex-col items-center py-4 space-y-6">
         <Link
           href="/"
-          className="text-neutral-700 dark:text-neutral-200 hover:text-neutral-900 dark:hover:text-white"
+          className="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
         >
-          <HomeIcon size={24} />
+          <p className="text-xs md:text-sm font-bold">Edge.</p>
         </Link>
         <Link
           href="/browse-rooms"
-          className="text-neutral-700 dark:text-neutral-200 hover:text-neutral-900 dark:hover:text-white"
+          className="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
         >
-          <SearchIcon size={24} />
+          <CompassIcon size={24} />
         </Link>
         <Link
           href="/create-room"
-          className="text-neutral-700 dark:text-neutral-200 hover:text-neutral-900 dark:hover:text-white"
+          className="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
         >
-          <PlusCircleIcon size={24} />
+          <PlusSquareIcon size={24} />
+        </Link>
+        <Link
+          href="/my-rooms"
+          className="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+        >
+          <BriefcaseBusiness size={24} />
         </Link>
       </div>
       <div className="flex flex-col items-center pb-4">

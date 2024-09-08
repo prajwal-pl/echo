@@ -17,10 +17,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createRoom } from "./actions";
+import { editRoom } from "./actions";
 import { UploadButton } from "@/lib/uploadthing";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { Room } from "@prisma/client";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -54,32 +55,34 @@ const formSchema = z.object({
     }),
 });
 
-type Props = {};
+type EditRoomFormProps = {
+  room: Room;
+};
 
-const NewRoomForm = (props: Props) => {
+const EditRoomForm = ({ room }: EditRoomFormProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      tags: "",
-      githubRepo: "",
-      thumbnail: "",
+      name: room.name,
+      description: room.description || "",
+      tags: room.tags,
+      githubRepo: room.githubRepo || "",
+      thumbnail: room.Thumbnail || "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (thumbnail) {
-        await createRoom({ ...values, thumbnail });
+        await editRoom({ ...values, thumbnail, roomId: room.id });
         form.reset();
         setThumbnail(null);
         toast({
-          title: "Room created",
-          description: "Your room has been created",
+          title: "Room updated",
+          description: "Your room has been updated",
         });
         router.push(`/browse-rooms`);
       } else {
@@ -183,14 +186,14 @@ const NewRoomForm = (props: Props) => {
           className="ut-button:dark:bg-white ut-button:dark:text-black ut-button:bg-black ut-button:text-white ut-button:w-full ut-allowed-content:sr-only"
         />
         <FormDescription>
-          This is the image that will be displayed in the room.
+          You must re-upload the thumbnail to update it.
         </FormDescription>
         <Button className="w-full" type="submit">
-          Submit
+          Update Room
         </Button>
       </form>
     </Form>
   );
 };
 
-export default NewRoomForm;
+export default EditRoomForm;

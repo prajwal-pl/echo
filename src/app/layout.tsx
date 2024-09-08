@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import Navbar from "@/components/global/navbar";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProvider } from "next-auth/react";
-
+import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -26,6 +26,7 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system">
             <NextTopLoader showSpinner={false} />
             {children}
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>

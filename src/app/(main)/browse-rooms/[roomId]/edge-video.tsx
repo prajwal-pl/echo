@@ -10,51 +10,74 @@ import {
   StreamVideoClient,
 } from "@stream-io/video-react-sdk";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
-
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Call } from "@stream-io/video-react-sdk";
 import { Room } from "@prisma/client";
 import { User } from "@prisma/client";
 import { generateTokenAction } from "./actions";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 export const EdgeVideo = ({ room, user }: { room: Room; user: User }) => {
-  const session = useSession();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<Call | null>(null);
   const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY!;
+  const clientRef = useRef<StreamVideoClient | null>(null);
 
   useEffect(() => {
-    if (!room) return;
-    if (!session || !session.data?.user) return;
-    const userId = user.id;
-    const client = new StreamVideoClient({
-      apiKey,
-      user: {
+    setLoading(true);
+    if (!room || !user) return;
+
+    const initializeClient = async () => {
+      if (clientRef.current) {
+        await clientRef.current.disconnectUser();
+      }
+
+      const userId = user.id;
+      const newClient = new StreamVideoClient({
+        apiKey,
+        user: {
+          id: userId,
+          name: user.name ?? "Unknown",
+          image: user.image ?? "/404.png",
+        },
+        tokenProvider: () => generateTokenAction(),
+      });
+
+      clientRef.current = newClient;
+      setClient(newClient);
+      newClient.connectUser({
         id: userId,
         name: user.name ?? "Unknown",
         image: user.image ?? "/404.png",
-      },
-      tokenProvider: () => generateTokenAction(),
-    });
-    setClient(client);
-    const call = client.call("default", room.id);
-    call.join({ create: true });
-    setCall(call);
-
-    return () => {
-      call
-        .leave()
-        .then(() => client.disconnectUser())
-        .catch(console.error);
+      });
+      const newCall = newClient.call("default", room.id);
+      await newCall.join({ create: true });
+      setCall(newCall);
     };
-  }, [session, room]);
+
+    initializeClient();
+    setLoading(false);
+    return () => {
+      if (call) {
+        call.leave().catch(console.error);
+      }
+      if (clientRef.current) {
+        clientRef.current.disconnectUser().catch(console.error);
+      }
+    };
+  }, [room, user, apiKey]);
 
   return (
     client &&
-    call && (
+    call &&
+    (loading ? (
+      <div>
+        <Loader2 className="animate-spin" />
+      </div>
+    ) : (
       <StreamVideo client={client}>
         <StreamTheme>
           <StreamCall call={call}>
@@ -68,6 +91,6 @@ export const EdgeVideo = ({ room, user }: { room: Room; user: User }) => {
           </StreamCall>
         </StreamTheme>
       </StreamVideo>
-    )
+    ))
   );
 };
