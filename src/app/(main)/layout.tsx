@@ -10,7 +10,7 @@ const layout = ({ children }: Props) => {
       <div className="fixed top-0 left-0 h-screen">
         <Sidebar />
       </div>
-      <div className="flex-1 ml-[60px]">{children}</div>
+      <div className="flex-1 md:ml-[60px] ml-[50px]">{children}</div>
     </div>
   );
 };

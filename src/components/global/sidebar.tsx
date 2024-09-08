@@ -9,7 +9,7 @@ type Props = {};
 const Sidebar = (props: Props) => {
   const session = useSession();
   return (
-    <div className="w-[60px] border-r flex flex-col justify-between items-center border-neutral-200 dark:border-neutral-700 bg-white dark:bg-black h-screen my-0 top-0 sticky">
+    <div className="md:w-[60px] w-[50px] border-r flex flex-col justify-between items-center border-neutral-200 dark:border-neutral-700 bg-white dark:bg-black h-screen my-0 top-0 sticky">
       <div className="flex flex-col items-center py-4 space-y-6">
         <Link
           href="/"
