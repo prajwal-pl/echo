@@ -1,12 +1,15 @@
 import { RoomCard } from "@/components/component/room-card";
 import { prisma } from "@/lib/prisma";
 import { Header } from "@/components/global/header";
+import { auth } from "../../../../auth";
+import { redirect } from "next/navigation";
 
 type Props = {
   searchParams: { search?: string };
 };
 
 const BrowsePage = async ({ searchParams }: Props) => {
+  const session = await auth();
   const search = searchParams.search?.toLowerCase() || "";
   const rooms = await prisma.room.findMany({
     where: {
@@ -19,6 +22,10 @@ const BrowsePage = async ({ searchParams }: Props) => {
       createdAt: "desc",
     },
   });
+
+  if (!session) {
+    return redirect("/login");
+  }
 
   return (
     <div className="max-w-screen w-full h-screen">
