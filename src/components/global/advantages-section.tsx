@@ -49,8 +49,8 @@ export default function AdvantagesSection() {
             Discover a new dimension of programming with our innovative
             platform. We offer unique features that transform the way you code,
             learn, and collaborate. From interactive live streams to AI-powered
-            code assistance, we're redefining what's possible in the world of
-            software development.
+            code assistance, {"we're"} redefining {"what's"} possible in the
+            world of software development.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
