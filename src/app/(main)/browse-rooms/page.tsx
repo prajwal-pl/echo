@@ -39,7 +39,7 @@ const BrowsePage = async ({ searchParams }: Props) => {
           <div className="flex flex-col gap-2 px-2 mt-4 md:px-0 lg:px-2 mb-8">
             <h1 className="text-3xl md:text-4xl font-bold">Explore Rooms</h1>
             <p className="text-muted-foreground">
-              Join various rooms to see what's going on!
+              Join various rooms to see {"what's"} going on!
             </p>
           </div>
           <div className="flex flex-wrap md:flex-row items-center gap-3 px-2 md:px-0 lg:px-2">

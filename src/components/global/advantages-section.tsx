@@ -1,15 +1,5 @@
-import {
-  ArrowRightIcon,
-  GitHubLogoIcon,
-  LockClosedIcon,
-  VideoIcon,
-} from "@radix-ui/react-icons";
-import {
-  CloudUploadIcon,
-  FingerprintIcon,
-  ShieldCheckIcon,
-  UsersIcon,
-} from "lucide-react";
+import { ArrowRightIcon, LockClosedIcon } from "@radix-ui/react-icons";
+import { CloudUploadIcon, FingerprintIcon, UsersIcon } from "lucide-react";
 
 const features = [
   {
@@ -39,7 +29,7 @@ const features = [
   {
     name: "Cross-Platform Compatibility",
     description:
-      "Access your coding environment from any device. Whether you're on a desktop, tablet, or mobile, your development workspace is always at your fingertips.",
+      "Access your coding environment from any device. Whether your on a desktop, tablet, or mobile, your development workspace is always at your fingertips.",
     icon: ArrowRightIcon,
   },
 ];
