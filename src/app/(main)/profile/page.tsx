@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,6 @@ const ProfilePage = () => {
     fetchUser();
   }, []);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleUpdateProfile = () => {
@@ -75,16 +74,9 @@ const ProfilePage = () => {
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  if (!session?.user) {
+    router.push("/login");
+  }
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-8">
@@ -119,14 +111,6 @@ const ProfilePage = () => {
             <label htmlFor="image" className="block text-sm font-medium mb-1">
               Profile Picture
             </label>
-            {/* <Input
-              id="image"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              ref={fileInputRef}
-              className="w-full flex items-center justify-center"
-            /> */}
             <UploadButton
               endpoint="imageUploader"
               className="ut-button:dark:bg-white ut-button:dark:text-black ut-button:bg-black ut-button:text-white ut-button:w-full ut-allowed-content:sr-only"

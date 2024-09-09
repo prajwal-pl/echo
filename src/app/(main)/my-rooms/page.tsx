@@ -1,10 +1,11 @@
-import { RoomCard } from "@/components/component/room-card";
 import { prisma } from "@/lib/prisma";
 import { auth } from "../../../../auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 import { UserRoomCard } from "./user-room-card";
+import { redirect } from "next/navigation";
+import { TriangleAlertIcon } from "lucide-react";
 
 const MyRoomsPage = async () => {
   const session = await auth();
@@ -14,6 +15,9 @@ const MyRoomsPage = async () => {
     },
   });
 
+  if (!session) {
+    redirect("/login");
+  }
   return (
     <div className="max-w-screen w-full h-screen">
       <div className="border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-black w-full h-full overflow-y-auto">
@@ -31,11 +35,27 @@ const MyRoomsPage = async () => {
               </Link>
             </div>
           </div>
-          <div className="flex flex-wrap md:flex-row items-center gap-3 px-2 md:px-0">
+          <div className="flex flex-wrap md:flex-row items-center gap-3 px-2 md:px-0 lg:px-2">
             {rooms.map((room) => (
               <UserRoomCard key={room.id} room={room} />
             ))}
           </div>
+          {rooms.length === 0 && (
+            <div className="flex flex-col items-center place-content-center gap-3 justify-center">
+              <TriangleAlertIcon
+                className="text-yellow-800"
+                stroke="currentColor"
+                strokeWidth="1"
+                size={100}
+              />
+              <p className="md:text-xl text-lg font-semibold">
+                You have no rooms, create one!
+              </p>
+              <Link href={"/create-room"}>
+                <Button variant={"secondary"}>Create Room</Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

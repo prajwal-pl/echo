@@ -140,7 +140,7 @@ const Sidebar = (props: Props) => {
             <TooltipTrigger asChild>
               <Link href="/profile">
                 <Image
-                  src={session.data?.user?.image || ""}
+                  src={session.data?.user?.image || "/404.png"}
                   alt="User Avatar"
                   width={30}
                   height={30}

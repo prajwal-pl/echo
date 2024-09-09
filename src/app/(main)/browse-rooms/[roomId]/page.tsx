@@ -12,6 +12,8 @@ import { EdgeVideo } from "./edge-video";
 import Link from "next/link";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { revalidatePath, unstable_noStore } from "next/cache";
+import { auth } from "../../../../../auth";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: {
@@ -20,6 +22,7 @@ type Props = {
 };
 
 const RoomPage = async ({ params }: Props) => {
+  const session = await auth();
   unstable_noStore();
   const { roomId } = params;
   const room = await prisma.room.findUnique({
@@ -40,6 +43,11 @@ const RoomPage = async ({ params }: Props) => {
   revalidatePath(`/browse-rooms/${roomId}`);
 
   const tags = room?.tags.split(",");
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     room &&
     user && (

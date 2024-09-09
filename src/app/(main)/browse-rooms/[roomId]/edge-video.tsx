@@ -92,13 +92,19 @@ export const EdgeVideo = ({ room, user }: { room: Room; user: User }) => {
     <StreamVideo client={client}>
       <StreamTheme>
         <StreamCall call={call}>
-          <SpeakerLayout />
-          <CallControls
-            onLeave={() => {
-              router.push("/browse-rooms");
-            }}
-          />
-          <CallParticipantsList onClose={() => undefined} />
+          <div className="flex flex-col h-full">
+            <div className="flex-grow">
+              <SpeakerLayout />
+            </div>
+            <div className="flex flex-col sm:flex-row justify-between items-center p-2">
+              <CallControls
+                onLeave={() => {
+                  router.push("/browse-rooms");
+                }}
+              />
+              <CallParticipantsList onClose={() => undefined} />
+            </div>
+          </div>
         </StreamCall>
       </StreamTheme>
     </StreamVideo>

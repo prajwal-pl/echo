@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import Navbar from "@/components/global/navbar";
 import NextTopLoader from "nextjs-toploader";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
@@ -12,6 +11,9 @@ export const metadata: Metadata = {
   title: "Echo",
   description: "Ultimate Pair programming platform",
   keywords: "echo, pair programming, code, programming, stream, live coding",
+  icons: {
+    icon: "/404.jpg",
+  },
 };
 
 export default function RootLayout({
