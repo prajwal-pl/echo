@@ -13,7 +13,7 @@ const Navbar = async (props: Props) => {
     <div className="flex items-center justify-between mx-auto backdrop-blur-md backdrop-brightness-75 dark:bg-black/20 top-0 sticky z-50 max-w-screen-sm sm:max-w-screen-2xl p-3">
       <div>
         <Link href={"/"} className="text-3xl font-semibold">
-          Edge
+          Echo
         </Link>
       </div>
       <div className="flex items-center gap-1.5">

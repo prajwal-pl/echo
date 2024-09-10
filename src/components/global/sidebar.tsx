@@ -51,7 +51,7 @@ const Sidebar = (props: Props) => {
           href="/"
           className="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
         >
-          <p className="text-xs md:text-sm font-bold">Edge.</p>
+          <p className="text-xs md:text-sm font-bold">Echo.</p>
         </Link>
         <TooltipProvider>
           <Tooltip>
