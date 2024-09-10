@@ -74,7 +74,7 @@ export const EdgeVideo = ({ room, user }: { room: Room; user: User }) => {
         clientRef.current.disconnectUser().catch(console.error);
       }
     };
-  }, [initializeClient, call]);
+  }, [initializeClient]);
 
   if (loading) {
     return (
